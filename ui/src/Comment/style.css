@@ -1,0 +1,26 @@
+.comment {
+  display: flex; 
+  padding: 10px; 
+  border: 1px solid #bbbbbb;
+}
+
+.comment + .comment {  
+  border-top: none;
+}
+
+.comment__content {
+  width: 100%;
+  display: flex;  
+}
+
+.comment__column {
+  flex-grow: 1;
+}
+
+.comment__service {
+  display: flex;
+}
+
+.comment__button + .comment__button {
+  margin-left: 10px;
+}
