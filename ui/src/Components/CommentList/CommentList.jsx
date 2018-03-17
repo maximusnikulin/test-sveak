@@ -1,17 +1,12 @@
 import React, {Component} from 'react';
 
 import Comment from '../Comment';
-import CommentListWithPaginator from './CommentListWithPaginator';
 
 
 class CommentList extends Component {
   componentDidMount(){
     this.props.getCommentList();
   } 
-
-  componentWillReceiveProps(nextProps) {
-    // console.log(nextProps);
-  }
 
   renderLoader() {
     return(
@@ -36,8 +31,7 @@ class CommentList extends Component {
       return this.renderLoader();
     }
 
-    return this.renderList();
-    
+    return this.renderList();  
   }
 }
 

@@ -1,7 +1,7 @@
-import React, {Component} from 'react';
-import {Route, Link, withRouter} from 'react-router-dom';
+import React, { Component } from 'react';
+import { Route, Link, withRouter } from 'react-router-dom';
 
-import PageComment from '../PageComment';
+import PageComment from '../Pages/PageComment';
 
 
 class App extends Component {

@@ -1,18 +1,10 @@
 import React, { Component } from 'react';
-import {Link, Route, withRouter} from 'react-router-dom';
+import { Link, Route, withRouter } from 'react-router-dom';
 import querystring from 'querystring';
 
 
 const CommentListWithPaginator = (WrappedComponent, countPerPage) => {  
   return class extends Component {                          
-    componentDidMount() {
-      console.log(this.props);
-    }
-
-    componentDidUpdate() {
-      console.log(this.props);
-    }    
-
     getActivePage(search) {
       const uri = decodeURIComponent(search).slice(1);
       const query = querystring.parse(uri);
@@ -29,7 +21,7 @@ const CommentListWithPaginator = (WrappedComponent, countPerPage) => {
     }
     
     renderPageLinks() {
-      const {count, loading} = this.props;
+      const { count, loading } = this.props;
 
       if (loading) {
         return null;
@@ -54,10 +46,9 @@ const CommentListWithPaginator = (WrappedComponent, countPerPage) => {
     }
 
     getPageComments(activePage) {
-      const {comments, count} = this.props;      
+      const { comments, count } = this.props;      
       const startIndex = countPerPage * (activePage - 1);
-      const endIndex = startIndex + countPerPage;
-      console.log(startIndex, endIndex);
+      const endIndex = startIndex + countPerPage;      
 
       return comments.slice(startIndex, endIndex);      
     }

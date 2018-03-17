@@ -1,6 +1,6 @@
 import React from 'react';
 
-import CommentList from '../CommentList';
+import CommentList from '../../Components/CommentList';
 
 
 const PageComment = () => {

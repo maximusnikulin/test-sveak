@@ -1,4 +1,4 @@
-import {SUCCESS_GET_COMMENT_LIST, REQUEST_COMMENT_LIST} from './constants';
+import { SUCCESS_GET_COMMENT_LIST, REQUEST_COMMENT_LIST } from './constants';
 
 
 const initialState = {
@@ -15,6 +15,7 @@ export default (state=initialState, action) => {
       ...state, 
       loading: true
     };
+
   case SUCCESS_GET_COMMENT_LIST:
     return {
       comments: action.jsonData.values,
@@ -22,6 +23,7 @@ export default (state=initialState, action) => {
       lastGet: new Date(),
       loading: false
     };
+    
   default:
     return state;
   }

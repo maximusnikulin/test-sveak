@@ -1,6 +1,6 @@
-import {combineReducers} from 'redux';
+import { combineReducers } from 'redux';
 
-import {commentState} from '../CommentList';
+import { commentState } from '../Components/CommentList';
 
 
 export default combineReducers({

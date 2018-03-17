@@ -1,5 +1,5 @@
-import {commentList} from '../App/data'; 
-import {REQUEST_COMMENT_LIST, SUCCESS_GET_COMMENT_LIST} from './constants';
+import { commentList } from '../../App/data'; 
+import { REQUEST_COMMENT_LIST, SUCCESS_GET_COMMENT_LIST } from './constants';
 
 
 export const requestCommentList = () => ({
