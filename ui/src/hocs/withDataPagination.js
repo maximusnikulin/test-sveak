@@ -2,9 +2,15 @@ import React, { Component } from 'react';
 import { Link, Route, withRouter } from 'react-router-dom';
 import querystring from 'querystring';
 
+import Preloader from '../components/Preloader';
 
-const CommentListWithPaginator = (WrappedComponent, countPerPage) => {  
-  return class extends Component {                          
+
+export default (WrappedComponent, countPerPage) => {  
+  return class extends Component {     
+    componentDidMount() {      
+      this.props.getData();
+    }
+    
     getActivePage(search) {
       const uri = decodeURIComponent(search).slice(1);
       const query = querystring.parse(uri);
@@ -22,14 +28,14 @@ const CommentListWithPaginator = (WrappedComponent, countPerPage) => {
     
     renderPageLinks() {
       const { count, loading } = this.props;
-
+      
       if (loading) {
         return null;
       }
 
       const pageNumbers = Math.ceil(count / countPerPage);
       const pageLinks = [];      
-      
+       
       for (let i = 1; i <= pageNumbers; i++) {        
         pageLinks.push(
           <Link to={`?p=${i}`} key={i}>
@@ -37,7 +43,7 @@ const CommentListWithPaginator = (WrappedComponent, countPerPage) => {
           </Link>
         );
       }
-      
+
       return(
         <ul className='paginator'>
           {pageLinks}
@@ -46,36 +52,36 @@ const CommentListWithPaginator = (WrappedComponent, countPerPage) => {
     }
 
     getPageComments(activePage) {
-      const { comments, count } = this.props;      
+      const { values, count } = this.props;      
       const startIndex = countPerPage * (activePage - 1);
       const endIndex = startIndex + countPerPage;      
 
-      return comments.slice(startIndex, endIndex);      
+      return values.slice(startIndex, endIndex);      
     }
 
-    renderPageComments = (props) => {      
-      const activePage = this.getActivePage(props.location.search);
-      const commentsSlice = this.getPageComments(activePage);
-
-      return <WrappedComponent {...this.props} comments={commentsSlice}/>;
+    renderDataSlice = (props) => {      
+      const activePage = this.getActivePage(window.location.search);
+      const valuesSlice = this.getPageComments(activePage);
+      
+      return <WrappedComponent {...this.props} values={valuesSlice}/>;
     }
 
     render() {                      
       return(
-        <div className='comments-with-pagination'>
-          <div className='comments-with-pagination__header'>
-            {this.renderPageLinks()}
-          </div>
-          <div className='comments-with-pagination__content'>
-            <Route render={this.renderPageComments}/>
-          </div>
-          <div className='comments-with-pagination__footer'>
-            {this.renderPageLinks()}
-          </div>
-        </div>
+        <Preloader show={this.props.loading}>
+          <div className='comments-with-pagination'>
+            <div className='comments-with-pagination__header'>
+              {this.renderPageLinks()}
+            </div>
+            <div className='comments-with-pagination__content'>
+              {this.renderDataSlice()}
+            </div>
+            <div className='comments-with-pagination__footer'>
+              {this.renderPageLinks()}
+            </div>
+          </div>   
+        </Preloader>     
       );
     }
   };
 };
-
-export default CommentListWithPaginator; 

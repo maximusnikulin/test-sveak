@@ -1,5 +1,5 @@
-import { commentList } from '../../App/data'; 
-import { REQUEST_COMMENT_LIST, SUCCESS_GET_COMMENT_LIST } from './constants';
+import { comments } from '../../data'; 
+import { REQUEST_COMMENT_LIST, SUCCESS_GET_COMMENT_LIST } from './actionTypes';
 
 
 export const requestCommentList = () => ({
@@ -11,7 +11,7 @@ export const successGetCommentList = (jsonData) => ({
   jsonData
 });
 
-export const getCommentList = () => (dispatch, getState) => {  
+export const getCommentList = (clientID) => (dispatch, getState) => {  
   const state = getState();
 
   if (state.commentState.comments.length) {
@@ -20,7 +20,7 @@ export const getCommentList = () => (dispatch, getState) => {
 
   dispatch(requestCommentList());
 
-  new Promise((res) => setTimeout(() => res(commentList), 1000))
+  new Promise((res) => setTimeout(() => res(comments[clientID]), 1000))
     .then((jsonData) => 
       dispatch(successGetCommentList(jsonData)));
 };
