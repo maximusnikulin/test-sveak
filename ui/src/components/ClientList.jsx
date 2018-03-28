@@ -1,16 +1,15 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 
-const ClientList = ({ clients }) => {  
+export default ({ clients }) => {  
   return (
     <ul className='client-list'>
       {
-        clients.map((cl, index) => (
-          <li key={index}>{cl.name}</li>  
+        clients.map((cl) => (
+          <Link to={`/clients/${cl.id}`} key={cl.id}>{cl.name}</Link>  
         ))
       }      
     </ul>
   );
 };
-
-export default ClientList;

@@ -3,14 +3,11 @@ import { Link, Route, withRouter } from 'react-router-dom';
 import querystring from 'querystring';
 
 import Preloader from '../components/Preloader';
+import Pagination from '../components/Pagination';
 
 
 export default (WrappedComponent, countPerPage) => {  
   return class extends Component {     
-    componentDidMount() {      
-      this.props.getData();
-    }
-    
     getActivePage(search) {
       const uri = decodeURIComponent(search).slice(1);
       const query = querystring.parse(uri);
@@ -26,7 +23,7 @@ export default (WrappedComponent, countPerPage) => {
       return 1;
     }
     
-    renderPageLinks() {
+    getPageLinks() {
       const { count, loading } = this.props;
       
       if (loading) {
@@ -37,21 +34,13 @@ export default (WrappedComponent, countPerPage) => {
       const pageLinks = [];      
        
       for (let i = 1; i <= pageNumbers; i++) {        
-        pageLinks.push(
-          <Link to={`?p=${i}`} key={i}>
-            {i}
-          </Link>
-        );
-      }
+        pageLinks.push(i);
+      };
 
-      return(
-        <ul className='paginator'>
-          {pageLinks}
-        </ul>
-      );
+      return pageLinks;
     }
 
-    getPageComments(activePage) {
+    getDataSlice(activePage) {
       const { values, count } = this.props;      
       const startIndex = countPerPage * (activePage - 1);
       const endIndex = startIndex + countPerPage;      
@@ -59,28 +48,18 @@ export default (WrappedComponent, countPerPage) => {
       return values.slice(startIndex, endIndex);      
     }
 
-    renderDataSlice = (props) => {      
+    getComponentWithDataSlice = (props) => {      
       const activePage = this.getActivePage(window.location.search);
-      const valuesSlice = this.getPageComments(activePage);
+      const valuesSlice = this.getDataSlice(activePage);      
       
       return <WrappedComponent {...this.props} values={valuesSlice}/>;
     }
 
     render() {                      
-      return(
-        <Preloader show={this.props.loading}>
-          <div className='comments-with-pagination'>
-            <div className='comments-with-pagination__header'>
-              {this.renderPageLinks()}
-            </div>
-            <div className='comments-with-pagination__content'>
-              {this.renderDataSlice()}
-            </div>
-            <div className='comments-with-pagination__footer'>
-              {this.renderPageLinks()}
-            </div>
-          </div>   
-        </Preloader>     
+      return(        
+        <Pagination links={this.getPageLinks()}>
+          {this.getComponentWithDataSlice()}
+        </Pagination>                  
       );
     }
   };
